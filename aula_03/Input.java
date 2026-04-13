@@ -23,6 +23,7 @@ public class Input {
             notaJogo = leitura.nextInt();
         }
 
+        // Ainda nao sei porque, mas em que fechar ele...
         leitura.close();
     }
 }
