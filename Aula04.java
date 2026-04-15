@@ -168,7 +168,9 @@ public class Aula04 {
                             nome = leitura.nextLine(); //
 
                             // NOTA:
-                            // Sempre que for usar nextLine(); apos usar nextInt();, temos que obrigatoriamente usar scanner.nextLine(); pois o nextInt(); nao consome "enter" igual o nextLine
+                            // Sempre que for usar nextLine(); apos usar nextInt();, temos que
+                            // obrigatoriamente usar scanner.nextLine(); pois o nextInt(); nao consome
+                            // "enter" igual o nextLine
 
                             System.out.println("Seu nome é " + nome + "?");
                             System.out.println("""
@@ -178,17 +180,17 @@ public class Aula04 {
                             int inputEditaNome = leitura.nextInt();
                             while (inputEditaNome > 2 || inputEditaNome < 1) {
                                 System.out.println("""
-                                    Não entendi. O nome %s está correto?
-                                        [1] Sim
-                                        [2] Não
-                                        """.formatted(nome));
+                                        Não entendi. O nome %s está correto?
+                                            [1] Sim
+                                            [2] Não
+                                            """.formatted(nome));
                                 inputEditaNome = leitura.nextInt();
                             }
 
                             if (inputEditaNome == 1) {
                                 System.out.println("Nome editado! Voltando ao menu anterior...");
                                 controleEditaNome = false;
-                            } 
+                            }
                         }
 
                         break;
@@ -208,26 +210,67 @@ public class Aula04 {
                             int inputEditaSobrenome = leitura.nextInt();
                             while (inputEditaSobrenome > 2 || inputEditaSobrenome < 1) {
                                 System.out.println("""
-                                    Não entendi. O sobrenome %s está correto?
-                                        [1] Sim
-                                        [2] Não
-                                        """.formatted(nome));
+                                        Não entendi. O sobrenome %s está correto?
+                                            [1] Sim
+                                            [2] Não
+                                            """.formatted(nome));
                                 inputEditaSobrenome = leitura.nextInt();
                             }
 
                             if (inputEditaSobrenome == 1) {
                                 System.out.println("Sobrenome editado! Voltando ao menu anterior...");
                                 controleEditaSobrenome = false;
-                            } 
+                            }
                         }
                         break;
                     case 3:
                         // editar tipo de conta
-                        System.out.println("Editando tipo de conta...");
+                        boolean controleEditaTipoDeConta = true;
+                        while (controleEditaTipoDeConta) {
+                            System.out.println(String.format("Escolha o seu tipo de conta, %s", nome));
+                            System.out.println("""
+                                    [1] para "Corrente"
+                                    [2] para "Poupança"
+                                    """);
+
+                            tipoDeConta = leitura.nextInt();
+
+                            while (tipoDeConta > 2 || tipoDeConta < 1) {
+                                System.out.println("Desculpe, não entendi, pode digitar novamente?");
+                                System.out.println("""
+                                        [1] para "Corrente"
+                                        [2] para "Poupança"
+                                        """);
+
+                                tipoDeConta = leitura.nextInt();
+                            }
+
+                            if (tipoDeConta == 1) {
+                                System.out.println("Certo, tipo de conta atualizado!");
+                                tipoDeContaTexto = "Corrente";
+                                controleEditaTipoDeConta = false;
+                            } else {
+                                System.out.println("Certo, tipo de conta atualizado!");
+                                tipoDeContaTexto = "Poupança";
+                                controleEditaTipoDeConta = false;
+                            }
+                        }
                         break;
                     case 4:
                         // editar saldo
-                        System.out.println("Editando saldo...");
+                        boolean controleEditaSaldo = true;
+                        while (controleEditaSaldo) {
+                            System.out.println(String.format("O saldo atual é R$%.2f, digite o novo valor: ", saldo));
+                            saldo = leitura.nextDouble();
+
+                            if (saldo < 0) {
+                                System.out.println("O saldo não pode ser menor que R$0,00");
+                                saldo = 0.0;
+                            } else {
+                                System.out.println(String.format("Saldo alterado para: R$%.2f", saldo));
+                                controleEditaSaldo = false;
+                            }
+                        }
                         break;
                     case 5:
                         // sair da edicao;
@@ -238,9 +281,36 @@ public class Aula04 {
             }
         }
 
-        System.out.println("Iniciar conta! ========== ( flag ) ");
-
         // Comecar conta
+
+        String cabecalhoConta = """
+        ======================================
+        Bem-vindo(a) ao LucasBank!
+
+        Dados do Usuário
+        Nome Completo: %s %s
+        Tipo de conta: %s
+        Saldo: R$%.2f
+        ======================================
+        """.formatted(nome, sobrenome, tipoDeContaTexto, saldo);
+
+        System.out.println(cabecalhoConta);
+
+        String menuOperacoesCorrente = """
+        Operações disponíveis:
+        [1] Ver saldo
+        [2] Sacar
+        [3] Transferir
+        [4] Sair
+        """;
+
+        String menuOperacoesPoupanca = """
+        Operações disponíveis:
+        [1] Ver saldo guardado
+        [2] Guardar
+        [3] Resgatar
+        [4] Sair
+        """;
 
         leitura.close();
     }
