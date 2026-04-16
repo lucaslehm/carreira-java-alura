@@ -284,33 +284,195 @@ public class Aula04 {
         // Comecar conta
 
         String cabecalhoConta = """
-        ======================================
-        Bem-vindo(a) ao LucasBank!
+                ======================================
+                Bem-vindo(a) ao LucasBank!
 
-        Dados do Usuário
-        Nome Completo: %s %s
-        Tipo de conta: %s
-        Saldo: R$%.2f
-        ======================================
-        """.formatted(nome, sobrenome, tipoDeContaTexto, saldo);
+                Dados do Usuário
+                Nome Completo: %s %s
+                Tipo de conta: %s
+                Saldo: R$%.2f
+                ======================================
+                """.formatted(nome, sobrenome, tipoDeContaTexto, saldo);
 
         System.out.println(cabecalhoConta);
 
         String menuOperacoesCorrente = """
-        Operações disponíveis:
-        [1] Ver saldo
-        [2] Sacar
-        [3] Transferir
-        [4] Sair
-        """;
+                Operações disponíveis:
+                [1] Ver saldo
+                [2] Sacar
+                [3] Depositar
+                [4] Sair
+                """;
 
         String menuOperacoesPoupanca = """
-        Operações disponíveis:
-        [1] Ver saldo guardado
-        [2] Guardar
-        [3] Resgatar
-        [4] Sair
-        """;
+                Operações disponíveis:
+                [1] Ver saldo guardado
+                [2] Resgatar
+                [3] Guardar
+                [4] Sair
+                """;
+
+        // Conta corrente
+        if (tipoDeConta == 1) {
+            boolean controleContaCorremte = true;
+            int seletorContaCorrente = 0;
+            String mensagem;
+            double salveValor = saldo;
+            double valorSaque;
+            double valorDeposito;
+
+            while (controleContaCorremte) {
+                System.out.println(menuOperacoesCorrente);
+                seletorContaCorrente = leitura.nextInt();
+
+                while (seletorContaCorrente > 4 || seletorContaCorrente < 1) {
+                    System.out.println("Não entendi, poderia digitar novamente?");
+                    System.out.println(menuOperacoesCorrente);
+                    seletorContaCorrente = leitura.nextInt();
+                }
+
+                switch (seletorContaCorrente) {
+                    case 1:
+                        // ver saldo guardado
+                        System.out.println(String.format("Seu saldo atual é de: R$%.2f", saldo));
+                        System.out.println("Retornando ao menu anterior");
+                        System.out.println("...");
+                        break;
+
+                    case 2:
+                        // Sacar
+                        System.out
+                                .println(String.format("Seu saldo é: R$%.2f. Qual valor você deseja sacar?: ", saldo));
+                        valorSaque = leitura.nextInt();
+
+                        if (valorSaque > saldo) {
+                            System.out.println(String
+                                    .format("Não é possível sacar esse valor. Seu saldo atual é de: R$%.2f", saldo));
+                            System.out.println("Retornando ao menu anterior");
+                            System.out.println("...");
+                            break;
+                        }
+
+                        saldo = salveValor - valorSaque;
+                        mensagem = """
+                                Saque realizado com sucesso
+                                Você retirou R$%.2f
+                                Seu saldo de R$%.2f foi para R$%.2f
+                                """.formatted(valorSaque, salveValor, saldo);
+                        System.out.println(mensagem);
+                        mensagem = "";
+
+                        System.out.println("Retornando ao menu anterior");
+                        System.out.println("...");
+
+                        break;
+
+                    case 3:
+                        // Depositar
+                        System.out.println(String.format("Seu saldo é: R$%.2f. Qual valor do deposito: ", saldo));
+                        valorDeposito = leitura.nextInt();
+                        salveValor = saldo;
+                        saldo = salveValor + valorDeposito;
+                        mensagem = """
+                                Deposito realizado com sucesso
+                                Você depositou R$%.2f
+                                Seu saldo de R$%.2f foi para R$%.2f
+                                """.formatted(valorDeposito, salveValor, saldo);
+                        System.out.println(mensagem);
+                        mensagem = "";
+
+                        System.out.println("Retornando ao menu anterior");
+                        System.out.println("...");
+                        break;
+
+                    case 4:
+                        // Sair
+                        System.out.println("Obrigado! Volte sempre!");
+                        controleContaCorremte = false;
+                        break;
+                }
+            }
+        } else {
+            // conta poupança
+            boolean controleContaPoupanca = true;
+            int seletorContaPoupanca = 0;
+            String mensagem;
+            double salveValor = saldo;
+            double valorResgate;
+            double valorGuardar;
+
+            while (controleContaPoupanca) {
+                System.out.println(menuOperacoesPoupanca);
+                seletorContaPoupanca = leitura.nextInt();
+
+                while (seletorContaPoupanca > 4 || seletorContaPoupanca < 1) {
+                    System.out.println("Não entendi, poderia digitar novamente?");
+                    System.out.println(menuOperacoesPoupanca);
+                    seletorContaPoupanca = leitura.nextInt();
+                }
+
+                switch (seletorContaPoupanca) {
+                    case 1:
+                        // ver saldo guardado
+                        System.out.println(String.format("Sua poupanca atual contém: R$%.2f", saldo));
+                        System.out.println("Retornando ao menu anterior");
+                        System.out.println("...");
+                        break;
+
+                    case 2:
+                        // Sacar
+                        System.out
+                                .println(String.format("Sua poupanca atual contém: R$%.2f. Qual valor você deseja Resgatar?: ", saldo));
+                        valorResgate = leitura.nextInt();
+
+                        if (valorResgate > saldo) {
+                            System.out.println(String
+                                    .format("Não é possível Resgatar esse valor. Sua poupanca atual contém: R$%.2f", saldo));
+                            System.out.println("Retornando ao menu anterior");
+                            System.out.println("...");
+                            break;
+                        }
+
+                        saldo = salveValor - valorResgate;
+                        mensagem = """
+                                Resgate realizado com sucesso
+                                Você resgatou R$%.2f
+                                Sua poupança de R$%.2f foi para R$%.2f
+                                """.formatted(valorResgate, salveValor, saldo);
+                        System.out.println(mensagem);
+                        mensagem = "";
+
+                        System.out.println("Retornando ao menu anterior");
+                        System.out.println("...");
+
+                        break;
+
+                    case 3:
+                        // Depositar
+                        System.out.println(String.format("Sua poupanca atual contém: R$%.2f. Qual valor do deposito: ", saldo));
+                        valorGuardar = leitura.nextInt();
+                        salveValor = saldo;
+                        saldo = salveValor + valorGuardar;
+                        mensagem = """
+                                Deposito realizado com sucesso
+                                Você depositou R$%.2f
+                                Seu saldo de R$%.2f foi para R$%.2f
+                                """.formatted(valorGuardar, salveValor, saldo);
+                        System.out.println(mensagem);
+                        mensagem = "";
+
+                        System.out.println("Retornando ao menu anterior");
+                        System.out.println("...");
+                        break;
+
+                    case 4:
+                        // Sair
+                        System.out.println("Obrigado! Volte sempre!");
+                        controleContaPoupanca = false;
+                        break;
+                }
+            }
+        }
 
         leitura.close();
     }
