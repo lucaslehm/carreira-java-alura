@@ -1,13 +1,19 @@
 package aula_05.screenmatch;
 
 public class Filme {
+
+    // Variaveis Privadas
+    // elas sao protegidas
+
     String nome;
     String sinopse;
     int anoDeLancamento;
     int duracaoEmMinutos;
     boolean incluidoNoPlano;
-    double avaliacao;
-    int totalAvaliacao;
+    // coloque a palavra private antes da declaracao de um atributo
+    // eu nao posso nem ler e nem escrever esse
+    private double avaliacao;
+    private int totalAvaliacao;
 
     // criando metodos
 
